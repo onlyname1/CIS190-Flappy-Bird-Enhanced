@@ -8,6 +8,7 @@ int main()
 
     while (window.isOpen())
     {
+        // check for events
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -15,8 +16,13 @@ int main()
                 window.close();
         }
 
+        // erase previously drawn stuff
         window.clear();
+
+        // draw stuff here
         window.draw(shape);
+
+        // display frame
         window.display();
     }
 
