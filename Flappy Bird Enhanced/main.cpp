@@ -71,7 +71,7 @@ int main()
 
         if (timeElapsed >= 5.0)
         {
-            pipes.emplace_back(window.getSize(), pipeTexture);
+            pipes.push_back(Pipe(window.getSize(), pipeTexture));
             timeElapsed = 0;
         }
 
@@ -87,19 +87,18 @@ int main()
         }
 
         // pipe logic
-        std::list<Pipe&> toRemove;
+        std::list<Pipe> pipesCopy = std::list<Pipe>();
         for (Pipe& pipe : pipes)
         {
             pipe.calculatePosition(elapsed.asSeconds());
-            if (pipe.sprite->getPosition().x <= 0.0)
+            if (!(pipe.sprite->getPosition().x <= 0.0))
             {
-                toRemove.push_back(pipe);
+                pipesCopy.push_back(pipe);
             }
         }
-        for (Pipe& pipe : toRemove)
-        {
-            pipes.remove(pipe);
-        }
+        
+        pipes = pipesCopy;
+
         std::cout << pipes.size() << std::endl;
 
         // draw stuff here
