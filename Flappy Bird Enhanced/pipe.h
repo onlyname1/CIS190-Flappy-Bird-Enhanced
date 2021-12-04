@@ -1,17 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-class pipe
+class Pipe
 {
 private:
-	std::unique_ptr<sf::Sprite> spr;
+	
 
 public:
+	std::unique_ptr<sf::Sprite> sprite;
+
 	// constructor
-	pipe(sf::Sprite sprite) 
-		: spr(std::make_unique<sf::Sprite>(sprite)) {}
+	Pipe(const sf::Texture& texture);
 
 	// moving 
-	void move(sf::Vector2f);
+	void calculatePosition(sf::Vector2f);
 
 	// getBounds
 	sf::FloatRect getBounds();
