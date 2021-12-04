@@ -146,12 +146,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="basicObstacle.cpp" />
+    <ClCompile Include="bigObstacle.cpp" />
     <ClCompile Include="bird.cpp" />
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="movingObstacle.cpp" />
+    <ClCompile Include="obstacle.cpp" />
     <ClCompile Include="pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="basicObstacle.h" />
+    <ClInclude Include="bigObstacle.h" />
     <ClInclude Include="bird.h" />
+    <ClInclude Include="bullet.h" />
+    <ClInclude Include="movingObstacle.h" />
+    <ClInclude Include="obstacle.h" />
     <ClInclude Include="pipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

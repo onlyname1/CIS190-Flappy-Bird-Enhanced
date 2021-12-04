@@ -2,6 +2,9 @@
 #include <iostream>
 
 #include "bird.h"
+#include "pipe.h"
+#include "bullet.h"
+#include "obstacle.h"
 
 int main()
 {
