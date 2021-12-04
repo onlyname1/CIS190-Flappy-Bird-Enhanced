@@ -12,7 +12,7 @@ public:
 	Pipe(const sf::Texture& texture);
 
 	// moving 
-	void calculatePosition(sf::Vector2f);
+	void calculatePosition(float time);
 
 	// getBounds
 	sf::FloatRect getBounds();
