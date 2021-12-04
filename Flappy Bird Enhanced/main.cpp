@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <list>
 
 #include "bird.h"
 #include "pipe.h"
@@ -35,6 +36,16 @@ int main()
     Bird bird = Bird(birdTexture);
     bird.sprite->setPosition(window.getSize().x / 5, window.getSize().y / 2);
 
+    sf::Texture pipeTexture;
+    if (!pipeTexture.loadFromFile("..\\gameAssets\\TileSet\\pipeBottom.png"))
+    {
+        std::cout << "error loading texture" << std::endl;
+        // error...
+    }
+
+    std::list<Pipe> pipes = std::list<Pipe>();
+    float timeElapsed = 0.0;
+
     while (window.isOpen())
     {
         // check for events
@@ -53,9 +64,16 @@ int main()
         }
 
         sf::Time elapsed = clock.restart();
+        timeElapsed += elapsed.asSeconds();
 
         // erase previously drawn stuff
         window.clear();
+
+        if (timeElapsed >= 5.0)
+        {
+            pipes.emplace_back(window.getSize(), pipeTexture);
+            timeElapsed = 0;
+        }
 
         // bird logic
         bird.calculatePosition(elapsed.asSeconds());
@@ -68,9 +86,29 @@ int main()
             bird.sprite->setPosition(sf::Vector2f(bird.sprite->getPosition().x, window.getSize().y));
         }
 
+        // pipe logic
+        std::list<Pipe&> toRemove;
+        for (Pipe& pipe : pipes)
+        {
+            pipe.calculatePosition(elapsed.asSeconds());
+            if (pipe.sprite->getPosition().x <= 0.0)
+            {
+                toRemove.push_back(pipe);
+            }
+        }
+        for (Pipe& pipe : toRemove)
+        {
+            pipes.remove(pipe);
+        }
+        std::cout << pipes.size() << std::endl;
+
         // draw stuff here
         window.draw(background);
         window.draw(*bird.sprite.get());
+        for (Pipe& pipe : pipes)
+        {
+            window.draw(*pipe.sprite.get());
+        }
 
         // display frame
         window.display();
