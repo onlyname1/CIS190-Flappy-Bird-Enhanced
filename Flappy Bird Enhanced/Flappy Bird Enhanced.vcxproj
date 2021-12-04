@@ -146,10 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bird.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="bird.h" />
+>>>>>>> a6f5b8bea07e4c70d77f8d759f31bd04b282ccad
     <ClInclude Include="pipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
