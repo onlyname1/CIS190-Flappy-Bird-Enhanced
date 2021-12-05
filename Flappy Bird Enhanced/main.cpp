@@ -36,8 +36,14 @@ int main()
     Bird bird = Bird(birdTexture);
     bird.sprite->setPosition(window.getSize().x / 5, window.getSize().y / 2);
 
-    sf::Texture pipeTexture;
-    if (!pipeTexture.loadFromFile("..\\gameAssets\\TileSet\\pipeBottom.png"))
+    sf::Texture pipeTextureTop;
+    if (!pipeTextureTop.loadFromFile("..\\gameAssets\\TileSet\\pipeTop.png"))
+    {
+        std::cout << "error loading texture" << std::endl;
+        // error...
+    }
+    sf::Texture pipeTextureBottom;
+    if (!pipeTextureBottom.loadFromFile("..\\gameAssets\\TileSet\\pipeBottom.png"))
     {
         std::cout << "error loading texture" << std::endl;
         // error...
@@ -78,7 +84,7 @@ int main()
             timeElapsed += elapsed.asSeconds();
             if (timeElapsed >= timeBetweenPipes)
             {
-                pipes.push_back(Pipe(window.getSize(), pipeTexture));
+                pipes.push_back(Pipe(window.getSize(), pipeTextureBottom, pipeTextureTop));
                 timeElapsed = 0;
                 numPipes++;
             }
@@ -99,7 +105,7 @@ int main()
         for (Pipe& pipe : pipes)
         {
             pipe.calculatePosition(elapsed.asSeconds());
-            if (pipe.sprite->getPosition().x + 3.0 * pipe.sprite->getLocalBounds().width <= 0.0)
+            if (pipe.spriteBottom->getPosition().x + 3.0 * pipe.spriteBottom->getLocalBounds().width <= 0.0)
             {
                 pipe.resetPosition();
             }
@@ -118,7 +124,8 @@ int main()
         }
         for (Pipe& pipe : pipes)
         {
-            window.draw(*pipe.sprite.get());
+            window.draw(*pipe.spriteBottom.get());
+            window.draw(*pipe.spriteTop.get());
         }
 
         // display frame

@@ -8,10 +8,11 @@ private:
 	sf::Vector2f screenSize;
 
 public:
-	std::unique_ptr<sf::Sprite> sprite;
+	std::unique_ptr<sf::Sprite> spriteBottom;
+	std::unique_ptr<sf::Sprite> spriteTop;
 
 	// constructor
-	Pipe(sf::Vector2u screenSize, const sf::Texture& texture);
+	Pipe(sf::Vector2u screenSize, const sf::Texture& textureBottom, const sf::Texture& textureTop);
 
 	// moving 
 	void calculatePosition(float time);
