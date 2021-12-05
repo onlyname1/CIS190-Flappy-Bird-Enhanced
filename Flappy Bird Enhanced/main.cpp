@@ -48,6 +48,7 @@ int main()
     float timeBetweenPipes = 3.0;
     int totalPipes = 5;
     int numPipes = 0;
+    bool isDead = false;
 
     while (window.isOpen())
     {
@@ -102,11 +103,19 @@ int main()
             {
                 pipe.resetPosition();
             }
+
+            if (bird.isColliding(pipe.getBounds()))
+            {
+                isDead = true;
+            }
         }
 
         // draw stuff here
         window.draw(background);
-        window.draw(*bird.sprite.get());
+        if (!isDead)
+        {
+            window.draw(*bird.sprite.get());
+        }
         for (Pipe& pipe : pipes)
         {
             window.draw(*pipe.sprite.get());

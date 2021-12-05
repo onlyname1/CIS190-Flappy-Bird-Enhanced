@@ -29,7 +29,7 @@ void Bird::calculatePosition(float deltaTime)
 	sprite->move(0, velocity * deltaTime);
 }
 
-bool Bird::isColliding(sf::FloatRect other)
+bool Bird::isColliding(std::tuple<sf::FloatRect, sf::FloatRect> other)
 {
 	return false;
 }

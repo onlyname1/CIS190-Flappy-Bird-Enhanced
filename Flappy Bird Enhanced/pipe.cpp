@@ -18,7 +18,7 @@ void Pipe::calculatePosition(float time)
 	sprite->move(xVelocity * time, yVelocity * time);
 }
 
-sf::FloatRect Pipe::getBounds()
+std::tuple<sf::FloatRect, sf::FloatRect> Pipe::getBounds()
 {
 	return sprite->getGlobalBounds();
 }

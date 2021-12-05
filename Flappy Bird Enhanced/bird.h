@@ -10,7 +10,7 @@ public:
 
 	void calculatePosition(float deltaTime);
 
-	bool isColliding(sf::FloatRect other);
+	bool isColliding(std::tuple<sf::FloatRect, sf::FloatRect> other);
 
 	static float GRAVITY;
 

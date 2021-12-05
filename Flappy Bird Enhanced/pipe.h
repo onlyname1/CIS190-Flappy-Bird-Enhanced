@@ -19,6 +19,6 @@ public:
 	void resetPosition();
 
 	// getBounds
-	sf::FloatRect getBounds();
+	std::tuple<sf::FloatRect, sf::FloatRect> getBounds();
 };
 
