@@ -2,10 +2,10 @@
 
 
 Pipe::Pipe(sf::Vector2u screenSize, const sf::Texture& texture)
-	: screenSize(screenSize), xVelocity(-100.0), yVelocity(50.0), sprite(std::make_unique<sf::Sprite>(texture)) // change velocity!!!!
+	: screenSize(screenSize), xVelocity(-150.0), yVelocity(50.0), sprite(std::make_unique<sf::Sprite>(texture)) // change velocity!!!!
 {
 	sprite->setScale(sf::Vector2f(3.f, 3.f));
-	sprite->setPosition(screenSize.x / 2, screenSize.y / 2);
+	sprite->setPosition(screenSize.x, screenSize.y / 2);
 }
 
 void Pipe::calculatePosition(float time)
@@ -21,4 +21,9 @@ void Pipe::calculatePosition(float time)
 sf::FloatRect Pipe::getBounds()
 {
 	return sprite->getGlobalBounds();
+}
+
+void Pipe::resetPosition()
+{
+	sprite->setPosition(screenSize.x, screenSize.y / 2);
 }

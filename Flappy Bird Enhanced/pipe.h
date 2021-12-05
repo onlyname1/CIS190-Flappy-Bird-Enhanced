@@ -16,6 +16,8 @@ public:
 	// moving 
 	void calculatePosition(float time);
 
+	void resetPosition();
+
 	// getBounds
 	sf::FloatRect getBounds();
 };

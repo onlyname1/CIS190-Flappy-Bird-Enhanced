@@ -45,6 +45,9 @@ int main()
 
     std::list<Pipe> pipes = std::list<Pipe>();
     float timeElapsed = 0.0;
+    float timeBetweenPipes = 3.0;
+    int totalPipes = 5;
+    int numPipes = 0;
 
     while (window.isOpen())
     {
@@ -69,10 +72,15 @@ int main()
         // erase previously drawn stuff
         window.clear();
 
-        if (timeElapsed >= 5.0)
+        if (numPipes < totalPipes)
         {
-            pipes.push_back(Pipe(window.getSize(), pipeTexture));
-            timeElapsed = 0;
+            timeElapsed += elapsed.asSeconds();
+            if (timeElapsed >= timeBetweenPipes)
+            {
+                pipes.push_back(Pipe(window.getSize(), pipeTexture));
+                timeElapsed = 0;
+                numPipes++;
+            }
         }
 
         // bird logic
@@ -87,19 +95,14 @@ int main()
         }
 
         // pipe logic
-        std::list<Pipe> pipesCopy = std::list<Pipe>();
         for (Pipe& pipe : pipes)
         {
             pipe.calculatePosition(elapsed.asSeconds());
-            if (!(pipe.sprite->getPosition().x <= 0.0))
+            if (pipe.sprite->getPosition().x + 3.0 * pipe.sprite->getLocalBounds().width <= 0.0)
             {
-                pipesCopy.push_back(pipe);
+                pipe.resetPosition();
             }
         }
-        
-        pipes = pipesCopy;
-
-        std::cout << pipes.size() << std::endl;
 
         // draw stuff here
         window.draw(background);
@@ -114,18 +117,4 @@ int main()
     }
 
     return 0;
-}
-
-void createPipe()
-{
-    sf::Texture texture;
-    if (!texture.loadFromFile("..\\gameAssets\\Background\\Background5.png"))
-    {
-        std::cout << "error loading texture" << std::endl;
-        // error...
-    }
-    texture.setRepeated(true);
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(0, 0, 1024, 512));
 }
