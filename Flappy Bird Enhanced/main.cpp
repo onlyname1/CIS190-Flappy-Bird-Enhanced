@@ -14,6 +14,34 @@ int main()
 
     sf::Clock clock;
 
+    sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(window.getSize().x * 0.9, window.getSize().y * 0.9));
+    rect.setFillColor(sf::Color(128, 0, 0));
+    rect.setPosition(window.getSize().x * 0.05, window.getSize().y * 0.05);
+
+    // setup font
+    sf::Font font;
+    if (!font.loadFromFile("..\\gameAssets\\Fonts\\kenneyBlocks.ttf"))
+    {
+        std::cout << "error loading font" << std::endl;
+        // error...
+    }
+
+    sf::Text gameOver;
+    gameOver.setFont(font);
+    gameOver.setString("GAME OVER");
+    gameOver.setCharacterSize(100);
+    gameOver.setFillColor(sf::Color::White);
+    gameOver.setOrigin(gameOver.getLocalBounds().width / 2, gameOver.getLocalBounds().height / 2);
+    gameOver.setPosition(window.getSize().x / 2, window.getSize().y / 4);
+
+    sf::Text restartText;
+    restartText.setFont(font);
+    restartText.setString("Press R to restart.");
+    restartText.setCharacterSize(50);
+    restartText.setFillColor(sf::Color::White);
+    restartText.setOrigin(restartText.getLocalBounds().width / 2, restartText.getLocalBounds().height / 2);
+    restartText.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+
     // make background
     sf::Texture texture;
     if (!texture.loadFromFile("..\\gameAssets\\Background\\Background5.png"))
@@ -33,9 +61,9 @@ int main()
         std::cout << "error loading texture" << std::endl;
         // error...
     }
-    Bird bird = Bird(birdTexture);
-    bird.sprite->setPosition(window.getSize().x / 5, window.getSize().y / 2);
+    Bird bird = Bird(birdTexture, window.getSize());
 
+    // setup pipe textures
     sf::Texture pipeTextureTop;
     if (!pipeTextureTop.loadFromFile("..\\gameAssets\\TileSet\\pipeTop.png"))
     {
@@ -70,6 +98,20 @@ int main()
                 if (event.key.code == sf::Keyboard::Space)
                 {
                     bird.addVelocity(birdVelocity);
+                }
+                if (event.key.code == sf::Keyboard::R)
+                {
+                    if (isDead)
+                    {
+                        timeElapsed = 0.0;
+                        timeBetweenPipes = 3.0;
+                        totalPipes = 5;
+                        numPipes = 0;
+                        isDead = false;
+                        birdVelocity = 300.0;
+                        pipes.clear();
+                        bird.resetPosition();
+                    }
                 }
             }
         }
@@ -127,6 +169,12 @@ int main()
         {
             window.draw(*pipe.spriteBottom.get());
             window.draw(*pipe.spriteTop.get());
+        }
+        if (isDead)
+        {
+            window.draw(rect);
+            window.draw(gameOver);
+            window.draw(restartText);
         }
 
         // display frame
