@@ -55,6 +55,7 @@ int main()
     int totalPipes = 5;
     int numPipes = 0;
     bool isDead = false;
+    float birdVelocity = 300.0;
 
     while (window.isOpen())
     {
@@ -68,7 +69,7 @@ int main()
             {
                 if (event.key.code == sf::Keyboard::Space)
                 {
-                    bird.addVelocity(350);
+                    bird.addVelocity(birdVelocity);
                 }
             }
         }

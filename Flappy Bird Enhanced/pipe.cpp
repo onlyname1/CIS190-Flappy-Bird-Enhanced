@@ -6,13 +6,15 @@ Pipe::Pipe(sf::Vector2u screenSize, const sf::Texture& textureBottom, const sf::
 {
 	spriteBottom->setScale(sf::Vector2f(3.f, 3.f));
 	spriteTop->setScale(sf::Vector2f(3.f, 3.f));
-	spriteBottom->setPosition(screenSize.x, screenSize.y / 4);
-	spriteTop->setPosition(screenSize.x, screenSize.y * 3 / 4);
+	resetPosition();
 }
 
 void Pipe::calculatePosition(float time)
 {
-	if (spriteBottom->getPosition().y <= (0.25 * screenSize.y) || spriteBottom->getPosition().y >= (0.75 * screenSize.y)) // if it's moving upwards or downwards past threshold, change directions
+
+	float topBound = spriteTop->getGlobalBounds().top + spriteTop->getGlobalBounds().height;
+	float bottomBound = spriteBottom->getGlobalBounds().top;
+	if (topBound <= (0.1 * screenSize.y) || bottomBound >= (0.9 * screenSize.y)) // if it's moving upwards or downwards past threshold, change directions
 	{
 		yVelocity *= -1;
 	}
@@ -28,6 +30,7 @@ std::tuple<sf::FloatRect, sf::FloatRect> Pipe::getBounds()
 
 void Pipe::resetPosition()
 {
-	spriteTop->setPosition(screenSize.x, screenSize.y * 3 / 4);
-	spriteBottom->setPosition(screenSize.x, screenSize.y / 4);
+	int displacement = std::rand() % ((int)screenSize.y / 3) - ((int)screenSize.y / 6);
+	spriteTop->setPosition(screenSize.x, -(float)screenSize.y + displacement);
+	spriteBottom->setPosition(screenSize.x, screenSize.y * 3 / 4 + displacement);
 }

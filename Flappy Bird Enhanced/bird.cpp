@@ -1,6 +1,6 @@
 #include "bird.h"
 
-float Bird::GRAVITY = -300.f;
+float Bird::GRAVITY = -600.f;
 
 Bird::Bird(const sf::Texture& texture)
 	: sprite(std::make_unique<sf::Sprite>(texture)), velocity(0)
