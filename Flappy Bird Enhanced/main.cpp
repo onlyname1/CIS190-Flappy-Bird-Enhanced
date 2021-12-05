@@ -26,6 +26,22 @@ int main()
         // error...
     }
 
+    sf::Text mainMenu;
+    mainMenu.setFont(font);
+    mainMenu.setString("MAIN MENU");
+    mainMenu.setCharacterSize(100);
+    mainMenu.setFillColor(sf::Color::White);
+    mainMenu.setOrigin(mainMenu.getLocalBounds().width / 2, mainMenu.getLocalBounds().height / 2);
+    mainMenu.setPosition(window.getSize().x / 2, window.getSize().y / 4);
+
+    sf::Text playText;
+    playText.setFont(font);
+    playText.setString("Press P to start.");
+    playText.setCharacterSize(50);
+    playText.setFillColor(sf::Color::White);
+    playText.setOrigin(playText.getLocalBounds().width / 2, playText.getLocalBounds().height / 2);
+    playText.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+
     sf::Text gameOver;
     gameOver.setFont(font);
     gameOver.setString("GAME OVER");
@@ -84,6 +100,7 @@ int main()
     int numPipes = 0;
     bool isDead = false;
     float birdVelocity = 300.0;
+    bool isPlay = false;
 
     while (window.isOpen())
     {
@@ -113,6 +130,14 @@ int main()
                         bird.resetPosition();
                     }
                 }
+                if (event.key.code == sf::Keyboard::P)
+                {
+                    if (!isPlay)
+                    {
+                        isPlay = true;
+                        bird.resetPosition();
+                    }
+                }
             }
         }
 
@@ -121,15 +146,17 @@ int main()
 
         // erase previously drawn stuff
         window.clear();
-
-        if (numPipes < totalPipes)
+        if (isPlay)
         {
-            timeElapsed += elapsed.asSeconds();
-            if (timeElapsed >= timeBetweenPipes)
+            if (numPipes < totalPipes)
             {
-                pipes.push_back(Pipe(window.getSize(), pipeTextureBottom, pipeTextureTop));
-                timeElapsed = 0;
-                numPipes++;
+                timeElapsed += elapsed.asSeconds();
+                if (timeElapsed >= timeBetweenPipes)
+                {
+                    pipes.push_back(Pipe(window.getSize(), pipeTextureBottom, pipeTextureTop));
+                    timeElapsed = 0;
+                    numPipes++;
+                }
             }
         }
 
@@ -145,19 +172,19 @@ int main()
         }
 
         // pipe logic
-        for (Pipe& pipe : pipes)
-        {
-            pipe.calculatePosition(elapsed.asSeconds());
-            if (pipe.spriteBottom->getPosition().x + 3.0 * pipe.spriteBottom->getLocalBounds().width <= 0.0)
+            for (Pipe& pipe : pipes)
             {
-                pipe.resetPosition();
-            }
+                pipe.calculatePosition(elapsed.asSeconds());
+                if (pipe.spriteBottom->getPosition().x + 3.0 * pipe.spriteBottom->getLocalBounds().width <= 0.0)
+                {
+                    pipe.resetPosition();
+                }
 
-            if (bird.isColliding(pipe.getBounds()))
-            {
-                isDead = true;
+                if (bird.isColliding(pipe.getBounds()))
+                {
+                    isDead = true;
+                }
             }
-        }
 
         // draw stuff here
         window.draw(background);
@@ -175,6 +202,11 @@ int main()
             window.draw(rect);
             window.draw(gameOver);
             window.draw(restartText);
+        }
+        if (!isPlay)
+        {
+            window.draw(mainMenu);
+            window.draw(playText);
         }
 
         // display frame
