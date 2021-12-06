@@ -5,14 +5,15 @@ class Pipe
 private:
 	float xVelocity;
 	float yVelocity;
-	sf::Vector2f screenSize;
+	int screenWidth;
+	int screenHeight;
 
 public:
 	std::unique_ptr<sf::Sprite> spriteBottom;
 	std::unique_ptr<sf::Sprite> spriteTop;
 
 	// constructor
-	Pipe(sf::Vector2u screenSize, const sf::Texture& textureBottom, const sf::Texture& textureTop);
+	Pipe(int screenWidth, int screenHeight, const sf::Texture& textureBottom, const sf::Texture& textureTop);
 
 	// moving 
 	void calculatePosition(float time);
@@ -21,5 +22,7 @@ public:
 
 	// getBounds
 	std::tuple<sf::FloatRect, sf::FloatRect> getBounds();
+
+	bool passed;
 };
 
